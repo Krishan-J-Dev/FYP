@@ -19,7 +19,7 @@
                     <h3 class="text-center mb-2 fw-bold">Create Account</h3>
                     <p class="text-center text-muted mb-4">Join BreakdownHelp community today</p>
 
-                    <!-- 1. எர்ரர் செய்திகளைக் காண்பித்தல் -->
+                    <!-- show error message -->
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul class="mb-0">
@@ -31,7 +31,7 @@
                     @endif
 
                     <form action="{{ route('register.post') }}" method="POST">
-                        <!-- 2. CSRF பாதுகாப்பு -->
+                        <!-- 2. CSRF Token -->
                         @csrf
 
                         <div class="mb-3">
@@ -77,7 +77,7 @@
                     </form>
 
                     <div class="text-center mt-3">
-                        <small>Already have an account? <a href="#">Log In</a></small>
+                        <small>Already have an account? <a href="{{ route('login') }}">Log In</a></small>
                     </div>
                 </div>
             </div>

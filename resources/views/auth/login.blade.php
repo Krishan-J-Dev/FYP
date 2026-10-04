@@ -3,79 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Register</title>
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <title>Login - BreakdownHelp</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <!-- Login 8 - Bootstrap Brain Component -->
-<section class="bg-light p-3 p-md-4 p-xl-5">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 col-xxl-11">
-        <div class="card border-light-subtle shadow-sm">
-          <div class="row g-0">
-            <div class="col-12 col-md-6">
-              <img class="img-fluid rounded-start w-100 h-100 object-fit-cover" loading="lazy" src="/logo-img-1.png" alt="Welcome back you've been missed!">
-            </div>
-            <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
-              <div class="col-12 col-lg-11 col-xl-10">
-                <div class="card-body p-3 p-md-4 p-xl-5">
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="mb-5">
-                        <h4 class="text-center">Login</h4>
-                      </div>
-                    </div>
-                  </div>
-                  <form action="{{ route('login.post') }}" method="POST">
-                    @csrf
+<body class="bg-light">
 
-                    @session("error")
-                        <div class="alert alert danger">{{ $value }}</div>
-                    @endsession
-                    <div class="row gy-3 overflow-hidden">
-                      <div class="col-12">
-                        <div class="form-floating mb-3">
-                          <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com" >
-                          <label for="email" class="form-label">Email</label>
-                          @error("email")
-                            <span class="text-danger">{{ $message }}</span>
-                          @enderror
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-2 fw-bold">Welcome Back</h3>
+                    <p class="text-center text-muted mb-4">Please enter your details to sign in</p>
+
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
                         </div>
-                      </div>
-                      <div class="col-12">
-                        <div class="form-floating mb-3">
-                          <input type="password" class="form-control" name="password" id="password" value="" placeholder="Password" >
-                          <label for="password" class="form-label">Password</label>
-                          @error("password")
-                            <span class="text-danger">{{ $message }}</span>
-                          @enderror
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
-                      </div>
-                      <div class="col-12">
-                        <div class="d-grid">
-                          <button class="btn btn-dark btn-lg" type="submit">Login</button>
+                    @endif
+
+                    <form action="{{ route('login.post') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" name="email" class="form-control" value="{{ old('email') }}" required>
                         </div>
-                      </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3 form-check d-flex justify-content-between align-items-center">
+                            <div>
+                                <input type="checkbox" name="remember" class="form-check-input" id="remember">
+                                <label class="form-check-label" for="remember">Remember me</label>
+                            </div>
+                            <a href="{{ route('password.request') }}" class="text-decoration-none small">Forgot password?</a>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 py-2">Sign In</button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <small>Don't have an account? <a href="{{ route('register') }}">Sign up</a></small>
                     </div>
-                  </form>
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-5">
-                        <a href=" {{ route('register') }} " class="link-secondary text-decoration-none">Create new account</a>
-                        <a href="#!" class="link-secondary text-decoration-none">Forgot password</a>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-</section>
+</div>
+
 </body>
 </html>

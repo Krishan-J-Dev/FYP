@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('phone'); 
             $table->string('password'); 
             $table->enum('user_type', ['driver', 'mechanic', 'tow_service', 'admin'])->default('driver');
+            $table->rememberToken();
             $table->timestamps();
         });
 
