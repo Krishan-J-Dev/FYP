@@ -18,11 +18,15 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    protected $primaryKey = 'user_id';
     protected $fillable = [
-        'name',
+        'full_name',
         'email',
-        'contact',
+        'phone',
+        'user_type',
         'password',
+        'profile_image',
+        'status',
     ];
 
     /**
@@ -43,7 +47,7 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
+    
             'password' => 'hashed',
         ];
     }
