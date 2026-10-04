@@ -11,7 +11,7 @@ Route::get("register",[AuthController::class, "register"])->name("register");
 
 Route::post("register",[AuthController::class, "registerPost"])->name("register.post");
 
-Route::get("dashboard", [AuthController::class, "dashboard"])->name("dashboard");
+Route::get("dashboard", function () {return view ('dashboard');})->name("dashboard")->middleware('auth');
 
 Route::get("logout",[AuthController::class, "logout"])->name("logout");
 

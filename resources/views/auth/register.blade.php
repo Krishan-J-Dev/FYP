@@ -1,104 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ta">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Register</title>
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <title>Register - BreakdownHelp</title>
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google reCAPTCHA JS Script -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
-<body>
-    <!-- Login 8 - Bootstrap Brain Component -->
-<section class="bg-light p-3 p-md-4 p-xl-5">
-  <div class="container">
+<body class="bg-light">
+
+<div class="container mt-5 mb-5">
     <div class="row justify-content-center">
-      <div class="col-12 col-xxl-11">
-        <div class="card border-light-subtle shadow-sm">
-          <div class="row g-0">
-            <div class="col-12 col-md-6">
-              <img class="img-fluid rounded-start w-60 h-70 object-fit-cover" loading="lazy" src="/logo-img-1.png" alt="Welcome back you've been missed!">
-            </div>
-            <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
-              <div class="col-12 col-lg-11 col-xl-10">
-                <div class="card-body p-3 p-md-4 p-xl-5">
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="mb-5">
-                        <h4 class="text-center">Register</h4>
-                      </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-2 fw-bold">Create Account</h3>
+                    <p class="text-center text-muted mb-4">Join BreakdownHelp community today</p>
+
+                    <!-- 1. எர்ரர் செய்திகளைக் காண்பித்தல் -->
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('register.post') }}" method="POST">
+                        <!-- 2. CSRF பாதுகாப்பு -->
+                        @csrf
+
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" name="full_name" class="form-control" value="{{ old('full_name') }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" name="email" class="form-control" value="{{ old('email') }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Phone Number</label>
+                            <input type="text" name="phone" class="form-control" value="{{ old('phone') }}" placeholder="+94 7X XXX XXXX" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Register As</label>
+                            <select name="user_type" class="form-select" required>
+                                <option value="driver" {{ old('user_type') == 'driver' ? 'selected' : '' }}>Vehicle Driver</option>
+                                <option value="mechanic" {{ old('user_type') == 'mechanic' ? 'selected' : '' }}>Mechanic</option>
+                                <option value="tow_service" {{ old('user_type') == 'tow_service' ? 'selected' : '' }}>Tow Service Provider</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Confirm Password</label>
+                            <input type="password" name="password_confirmation" class="form-control" required>
+                        </div>
+
+                        <!-- 3. Google reCAPTCHA Widget -->
+                        <div class="mb-3 d-flex justify-content-center">
+                            <div class="g-recaptcha" data-sitekey="{{ env('NOCAPTCHA_SITEKEY') }}"></div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 py-2">Sign Up</button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <small>Already have an account? <a href="#">Log In</a></small>
                     </div>
-                  </div>
-                  <form action="{{ route('register.post') }}" method="POST">
-                    @csrf
-                    <div class="row gy-3 overflow-hidden">
-                      <div class="col-12">
-                        <div class="form-floating mb-3">
-                          <input type="text" class="form-control" name="name" id="name" placeholder="Name" >
-                          <label for="name" class="form-label">Name</label>
-                          @error("name")
-                            <span class="text-danger">{{ $message }}</span>
-                          @enderror
-                        </div>
-                      </div>
-                      <div class="col-12">
-                        <div class="form-floating mb-3">
-                          <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com" >
-                          <label for="email" class="form-label">Email</label>
-                          @error("email")
-                            <span class="text-danger">{{ $message }}</span>
-                          @enderror
-                        </div>
-                      </div>
-                      <div class="col-12">
-                        <div class="form-floating mb-3">
-                          <input type="number" class="form-control" name="contact" id="contact" placeholder="contactnumber" >
-                          <label for="contact" class="form-label">Contact number</label>
-                          @error("contact")
-                            <span class="text-danger">{{ $message }}</span>
-                          @enderror
-                        </div>
-                      </div>
-                      <div class="col-12">
-                        <div class="form-floating mb-3">
-                          <input type="password" class="form-control" name="password" id="password" value="" placeholder="Password" >
-                          <label for="password" class="form-label">Password</label>
-                          @error("password")
-                            <span class="text-danger">{{ $message }}</span>
-                          @enderror
-                        </div>
-                      </div>
-                      <div class="col-12">
-                        <div class="form-floating mb-3">
-                          <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" value="" placeholder="Confirm Password" >
-                          <label for="password_confirmation" class="form-label">Confirm Password</label>
-                          @error("password_confirmation")
-                            <span class="text-danger">{{ $message }}</span>
-                          @enderror
-                        </div>
-                      </div>
-                      <div class="col-12">
-                        <div class="d-grid">
-                          <button class="btn btn-dark btn-lg" type="submit">Register</button>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-5">
-                        <a href=" {{ route('login') }} " class="link-secondary text-decoration-none">Login</a>
-                        <a href="#!" class="link-secondary text-decoration-none">Forgot password</a>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-</section>
+</div>
+
 </body>
 </html>
